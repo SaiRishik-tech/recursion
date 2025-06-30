@@ -1,0 +1,128 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int sign=1;
+        int result=0;
+
+        int main()
+        {
+
+
+        void whitespaces(s,i);
+        void digits(s,i);
+        if(sign= 1 && result>=INT_MAX) return INT_MAX;
+        if(sign=-1 && -result<=INT_MIN) return INT_MIN;
+        }
+
+
+        void whitespaces(const& s,int&i)
+        {
+            if(i>s.size())return;
+
+            while(i<s.size() && s[i]=='')
+            {
+               void whitespaces(s,i);
+
+                if(s[i]=='+'||s[i]=='-')
+                {
+                   sign=if(s[i]=='-')?-1:1;
+                }
+                 i++;
+
+
+            }
+
+        }
+
+        void digits(const&s,int &i)
+        {
+            if(i>s.size() && !isdigit(s[i]))
+            {
+                result *=10;
+                if(sign=1 && result>INT_MAX)return;
+                if(sign=-1 && -result<INT_MIN)return;
+            }
+            void digits(s,i);
+        }
+
+        
+    }
+};
+
+updated code:
+mistakes
+ Problems in Your Code:
+You defined main() inside a class method. ❌ Not allowed in C++
+
+Wrong function calls like void whitespaces(s, i); ❌ — That’s a declaration, not a function call
+
+Empty quotes s[i] == '' ❌ — Should be ' ' (space)
+
+Incorrect use of if(sign = 1) instead of ==
+
+Incorrect recursive call placement
+
+Logic inside digits() is inverted
+
+Missing function return types
+
+Accessing class variables like sign and result improperly in recursio
+
+
+
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0;
+        sign = 1;
+        result = 0;
+
+        skipWhitespaces(s, i);
+        parseSign(s, i);
+        parseDigits(s, i);
+
+        long finalResult = sign * result;
+
+        // Clamp overflow
+        if (finalResult > INT_MAX) return INT_MAX;
+        if (finalResult < INT_MIN) return INT_MIN;
+
+        return static_cast<int>(finalResult);
+    }
+
+private:
+    int sign;
+    long result;
+
+    void skipWhitespaces(const string& s, int& i) {
+        if (i >= s.length()) return;
+        if (s[i] == ' ') {
+            i++;
+            skipWhitespaces(s, i);
+        }
+    }
+
+    void parseSign(const string& s, int& i) {
+        if (i >= s.length()) return;
+        if (s[i] == '+' || s[i] == '-') {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+    }
+
+    void parseDigits(const string& s, int& i) {
+        if (i >= s.length() || !isdigit(s[i])) return;
+
+        result = result * 10 + (s[i] - '0');
+
+        // Early overflow detection (optional)
+        if (sign == 1 && result > INT_MAX) return;
+        if (sign == -1 && -result < INT_MIN) return;
+
+        i++;
+        parseDigits(s, i);
+    }
+};
+
+
+//rewrite this sol without seeing !!
