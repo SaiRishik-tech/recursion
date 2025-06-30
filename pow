@@ -1,0 +1,71 @@
+class Solution {
+public:
+    double myPow(double x, int n) {
+        int result=0;
+        
+        pow(x,n);
+
+       if(result>INT_MAX)return INT_MAX;
+         if(-result<INT_MIN)return INT_MIN;
+
+        return result;
+    }
+
+    private:
+    void pow(double x,int n)
+        {
+        while(n>INT_MIN || n<INT_MAX)
+        {
+
+        if(n==0)return ;
+
+        if(n<0)
+        {
+            long result=1/(x*n);
+        }
+        else
+         long result= x*n;
+        pow(x,n-1);
+        }
+        
+    }
+    
+    
+};
+
+but somehting missing that while condition
+
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+         result=1.0;
+        
+        pow(x,n);
+
+        return result;
+    }
+
+    private:
+     double result;
+    void pow(double x,int n)
+        {
+        if(n==0)return ;
+
+        if(n<0)
+        {//long long to avoid overflow
+
+        long N=(long)n;
+        x=1/x;//int N so that the result is in int     
+        N=-N;
+        
+        pow(x,(int) N);
+        return ;
+        }
+        
+     result*= x;
+        pow(x,n-1);  these two lines are important to calculate result and update pow for every recursion n
+        }
+    
+    
+};
