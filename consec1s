@@ -1,0 +1,81 @@
+Problem Statement:
+Given a number n, generate all binary strings of length n such that there are no two consecutive 1s.
+
+We use recursion + backtracking
+
+At each step, we have two choices:
+Add '0' to the string (always allowed).
+Add '1' only if the last character was not '1'.
+this prevents consecutive ones 
+
+Function Parameters:
+void generate(int n, string curr, int last)
+
+n: number of bits remaining
+curr: current string formed
+last: last bit added (0 or 1)
+
+If n == 0: Print or store curr
+
+Always try '0' → generate(n - 1, curr + "0", 0)
+Try '1' only if last was 0 → if (last == 0) generate(n - 1, curr + "1", 1)
+
+#include <iostream>
+using namespace std;
+
+void generate(int n, string curr, int last) {
+    if (n == 0) {
+        cout << curr << endl;
+        return;
+    }
+
+    // Always allowed to put '0'
+    generate(n - 1, curr + "0", 0);
+
+    // Only allowed to put '1' if last was 0
+    if (last == 0)
+        generate(n - 1, curr + "1", 1);
+}
+
+int main() {
+    int n = 3;
+    generate(n, "", 0);
+    return 0;
+}
+
+
+Time Complexity:
+Exponential: O(2ⁿ) in worst case
+You can place '1' only if the previous bit was '0' this prevents consecutive 1s alright
+
+Generate all binary strings of length n
+Only count those with no consecutive 1s
+Return the count
+
+#include <iostream>
+using namespace std;
+
+int countBinaryStrings(int n, int last) {
+    if (n == 0) return 1; // valid string of length reached
+
+    // Option 1: Add '0' → always allowed
+    int count = countBinaryStrings(n - 1, 0);
+
+    // Option 2: Add '1' → allowed only if last was 0
+    if (last == 0)
+        count += countBinaryStrings(n - 1, 1);
+
+    return count;
+}
+
+int main() {
+    int n = 4;
+    cout << "Total valid strings of length " << n << " = "
+         << countBinaryStrings(n, 0) << endl;
+    return 0;
+}
+
+
+
+
+But reduced since half branches are skipped (when last = 1)
