@@ -1,0 +1,71 @@
+🔄 Function Design
+We create a recursive helper function:
+
+cpp
+Copy
+Edit
+void generateAll(int open, int close, string current, vector<string>& result)
+Where:
+
+open = number of '(' left to use
+
+close = number of ')' left to use
+
+current = current string being built
+
+result = final list of well-formed strings
+
+✅ Base Case
+If both open == 0 and close == 0,
+➡️ it means we have used all the parentheses correctly.
+✅ So we add current to the result vector and return.
+
+🟢 Case 1: Add '('
+If open > 0,
+➡️ we still have '(' left to place.
+So we:
+
+Decrease open by 1
+
+Add '(' to current
+
+Recursively call the same function
+
+cpp
+Copy
+Edit
+generateAll(open - 1, close, current + "(", result);
+🔵 Case 2: Add ')'
+If close > open,
+➡️ we can safely add ')' only if there are more ')' left than '(',
+because every closing bracket must match a previous opening bracket.
+
+So we:
+
+Decrease close by 1
+
+Add ')' to current
+
+Recursively call the same function
+
+cpp
+Copy
+Edit
+generateAll(open, close - 1, current + ")", result);
+🧠 Why close > open?
+This ensures well-formedness.
+We never place a ')' unless there's already a matching '(' placed before it.
+
+🔚 Final Step
+In the main function generateParenthesis(n),
+we call:
+
+cpp
+Copy
+Edit
+generateAll(n, n, "", result);
+Because:
+
+We start with n open and n close brackets available
+
+An empty string as our starting point
